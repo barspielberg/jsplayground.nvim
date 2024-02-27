@@ -17,6 +17,12 @@ M.create_cmd = function(command, fileName)
 	for i = 1, #command, 1 do
 		table.insert(cmd, command[i])
 	end
+
+	local cur_dir = debug.getinfo(1, "S").source:sub(2):match("(.*/)") --HACK: there mast be a better way to get current dir
+	local pre_script_path = cur_dir .. "../../js/preScript.js"
+	table.insert(cmd, "-r")
+	table.insert(cmd, pre_script_path)
+
 	table.insert(cmd, fileName)
 	return cmd
 end
