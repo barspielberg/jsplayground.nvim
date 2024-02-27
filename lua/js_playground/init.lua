@@ -28,9 +28,8 @@ M.start = function()
 end
 
 M.setup = function(_opts)
-	-- do something
+	--TODO: merge opts
+	-- set_mappings()
 end
 
 return M
-
---TODO: set_mappings()
