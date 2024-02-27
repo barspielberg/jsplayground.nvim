@@ -39,7 +39,9 @@ function Console:open()
 end
 
 function Console:close()
-	api.nvim_win_close(self.win, true)
+	if self.win then
+		api.nvim_win_close(self.win, true)
+	end
 end
 
 function Console:init()
