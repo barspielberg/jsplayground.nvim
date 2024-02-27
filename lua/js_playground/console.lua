@@ -18,6 +18,13 @@ end
 function Console:open()
 	self.buf = utils.create_empty_buffer()
 
+	api.nvim_buf_attach(self.buf, false, {
+		on_detach = function()
+			self.buf = nil
+			self.win = nil
+		end,
+	})
+
 	api.nvim_command("split")
 	local win = api.nvim_get_current_win()
 	self.win = win
