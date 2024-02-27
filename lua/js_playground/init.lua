@@ -20,7 +20,9 @@ local function stop()
 end
 
 local function listen_cur_buf()
-	vim.api.nvim_buf_attach(0, false, { on_detach = stop }) --FIXME:
+	--close runner on buf close
+	vim.api.nvim_command("autocmd BufDelete <buffer> lua require('js_playground').stop()")
+
 	local cur_dir = vim.fn.expand("%:p:h")
 	local file_name = vim.fn.expand("%:t")
 	local cmd = utils.create_cmd(opts.cmd, file_name)
@@ -28,9 +30,7 @@ local function listen_cur_buf()
 	runner:attach(cmd, cur_dir)
 end
 
-local M = {}
-
-M.toggle = function()
+local function toggle()
 	if runner then
 		stop()
 	else
@@ -38,9 +38,13 @@ M.toggle = function()
 	end
 end
 
-M.setup = function(_opts)
+local function setup(_opts)
 	--TODO: merge opts
 	-- set_mappings()
 end
 
-return M
+return {
+	stop = stop,
+	toggle = toggle,
+	setup = setup,
+}
