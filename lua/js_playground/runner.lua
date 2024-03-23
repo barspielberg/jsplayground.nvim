@@ -16,7 +16,7 @@ function Runner.new(console)
 end
 
 ---@param data string[]
-function Runner:on_std(data) --FIXME: timing issues
+function Runner:on_std(data)
 	if not data then
 		return
 	end
@@ -44,7 +44,6 @@ function Runner:attach(command, cwd)
 
 		vim.fn.jobstart(command, {
 			cwd = cwd,
-			stdout_buffered = true,
 			on_stdout = callback,
 			on_stderr = callback,
 		})
