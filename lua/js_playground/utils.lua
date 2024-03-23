@@ -27,4 +27,8 @@ M.create_cmd = function(command, fileName)
 	return cmd
 end
 
+M.get_log_data = function(str)
+	return str:match("line:(%d+),prop:(%w+)| (.+)")
+end
+
 return M

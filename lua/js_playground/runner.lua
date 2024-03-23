@@ -1,3 +1,4 @@
+local utils = require("js_playground.utils")
 local api = vim.api
 local groupId = api.nvim_create_augroup("jsPlayground", { clear = true })
 
@@ -14,22 +15,38 @@ function Runner.new(console)
 	}, Runner)
 end
 
+---@param data string[]
+function Runner:on_std(data) --FIXME: timing issues
+	if not data then
+		return
+	end
+	local messages = {}
+	for i = 1, #data, 1 do
+		local line, prop, message = utils.get_log_data(data[i])
+		if message then
+			table.insert(messages, message)
+		else
+			table.insert(messages, data[i])
+		end
+	end
+	self.console:write(messages)
+end
+
 ---@param command table<string>
 ---@param cwd string
 function Runner:attach(command, cwd)
-	local function on_std(_, data, _)
-		if data then
-			self.console:write(data)
-		end
-	end
-
 	local function run()
 		self.console:init()
+
+		local function callback(_, data, _)
+			self:on_std(data)
+		end
+
 		vim.fn.jobstart(command, {
 			cwd = cwd,
 			stdout_buffered = true,
-			on_stdout = on_std,
-			on_stderr = on_std,
+			on_stdout = callback,
+			on_stderr = callback,
 		})
 	end
 
