@@ -30,9 +30,9 @@ function Console:open()
 	self.win = win
 
 	api.nvim_win_set_buf(win, self.buf)
-	api.nvim_win_set_height(win, math.ceil(api.nvim_get_option("lines") * self.percentage))
-	api.nvim_win_set_option(win, "number", false)
-	api.nvim_win_set_option(win, "relativenumber", false)
+	api.nvim_win_set_height(win, math.ceil(api.nvim_get_option_value("lines", { scope = "local" }) * self.percentage))
+	api.nvim_set_option_value("number", false, { win = win })
+	api.nvim_set_option_value("relativenumber", false, { win = win })
 
 	--back to the original window
 	api.nvim_command("wincmd p") -- HACK: this command causes the cursor to jump

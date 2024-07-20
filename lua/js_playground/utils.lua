@@ -3,10 +3,10 @@ local M = {}
 
 M.create_empty_buffer = function()
 	local buf = api.nvim_create_buf(false, true) -- create new empty buffer
-	api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-	api.nvim_buf_set_option(buf, "buftype", "nofile")
-	api.nvim_buf_set_option(buf, "swapfile", false)
-	api.nvim_buf_set_option(buf, "filetype", "nvim-oldfile")
+	api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
+	api.nvim_set_option_value("buftype", "nofile", { buf = buf })
+	api.nvim_set_option_value("swapfile", false, { buf = buf })
+	api.nvim_set_option_value("filetype", "nvim-oldfile", { buf = buf })
 	return buf
 end
 
