@@ -48,7 +48,7 @@ function Console:init()
 	if not self.buf then
 		self:open()
 	end
-	api.nvim_buf_set_lines(self.buf, 0, -1, false, { "Running..." })
+	api.nvim_buf_set_lines(self.buf, 0, -1, false, { "Console Output:" }) -- TODO: add console title to setup opts
 end
 
 ---@param data string[]
