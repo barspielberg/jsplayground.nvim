@@ -1,11 +1,16 @@
 local api = vim.api
 local M = {}
 
-local ns = api.nvim_create_namespace("js_playground")
+local ns = api.nvim_create_namespace("jsPlayground")
 
--- const override = ['log', 'error', 'warn', 'info', 'debug'];
-M.init = function()
-	vim.api.nvim_set_hl(ns, "log", { link = "DiagnosticInfo" })
+---@param win number
+M.init = function(win)
+	api.nvim_set_hl(ns, "log", { link = "DiagnosticInfo", default = true })
+	api.nvim_set_hl(ns, "info", { link = "DiagnosticHint", default = true })
+	api.nvim_set_hl(ns, "error", { link = "DiagnosticError", default = true })
+	api.nvim_set_hl(ns, "warn", { link = "DiagnosticWarn", default = true })
+	api.nvim_set_hl(ns, "debug", { link = "DiagnosticOk", default = true })
+	api.nvim_win_set_hl_ns(win, ns)
 end
 
 ---@param buf number
