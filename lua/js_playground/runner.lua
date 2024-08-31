@@ -47,7 +47,7 @@ function Runner:attach(command, cwd)
 			self:on_std(output, run_data.buf)
 		end
 
-		vim.fn.jobstart(command, {
+		vim.fn.jobstart(command, { -- TODO: cleanup
 			cwd = cwd,
 			on_stdout = callback,
 			on_stderr = callback,
@@ -60,7 +60,6 @@ function Runner:attach(command, cwd)
 		callback = run,
 	})
 	marks.init(api.nvim_get_current_win())
-	run({ buf = api.nvim_win_get_buf(0) })
 end
 
 function Runner:detach()
