@@ -7,6 +7,7 @@ local opts = {
 	percentage = 0.25,
 	-- cmd = { "node", "-r", "ts-node/register/transpile-only", "-r", "tsconfig-paths/register" },
 	cmd = { "node" },
+	inline_prefix = "» ",
 }
 
 ---@type Runner | nil
@@ -29,7 +30,7 @@ local function listen_cur_buf()
 	local cur_dir = vim.fn.expand("%:p:h")
 	local file_name = vim.fn.expand("%:t")
 	local cmd = utils.create_cmd(opts.cmd, file_name)
-	runner = Runner.new(Console.new(opts.percentage))
+	runner = Runner.new(Console.new(opts.percentage), opts)
 	runner:attach(cmd, cur_dir)
 end
 

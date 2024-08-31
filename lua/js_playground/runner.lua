@@ -6,13 +6,16 @@ local groupId = api.nvim_create_augroup("jsPlayground", { clear = true })
 ---@class Runner
 ---@field console Console
 ---@field autocmd_id number|nil
+---@field inline_prefix string
 local Runner = {}
 Runner.__index = Runner
 
 ---@param console Console
-function Runner.new(console)
+---@param opts { inline_prefix: string }
+function Runner.new(console, opts)
 	return setmetatable({
 		console = console,
+		inline_prefix = opts.inline_prefix,
 	}, Runner)
 end
 
@@ -26,7 +29,7 @@ function Runner:on_std(output, buf)
 	for i = 1, #output, 1 do
 		local line, prop, message = utils.get_log_data(output[i])
 		if message then
-			marks.set_mark(buf, line, { message, prop })
+			marks.set_mark(buf, line, { self.inline_prefix .. message, prop })
 			table.insert(messages, message)
 		else
 			table.insert(messages, output[i])
