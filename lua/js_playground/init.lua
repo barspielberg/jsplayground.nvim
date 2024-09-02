@@ -38,7 +38,7 @@ local function toggle()
 	if runner then
 		stop()
 	else
-		vim.api.nvim_command("vnew " .. opts.file_name)
+		vim.api.nvim_command("edit " .. opts.file_name)
 		listen_cur_buf()
 	end
 end
