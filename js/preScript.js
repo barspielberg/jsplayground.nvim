@@ -5,7 +5,7 @@ console = new Proxy(console, {
       return Reflect.get(...arguments)
     }
     return function (...args) {
-      const lineNum = new Error().stack.split("\n")[2].split(":")[1];
+      const [_,lineNum] = new Error().stack.split("\n")[2].match(/:(\d+):(\d+)$/);
       const data = `line:${lineNum},prop:${prop}|`;
       target[prop].call(target, data, ...args);
     };
