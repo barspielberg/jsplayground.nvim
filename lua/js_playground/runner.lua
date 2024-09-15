@@ -7,14 +7,14 @@ local api = vim.api
 local groupId = api.nvim_create_augroup("jsPlayground", { clear = true })
 
 ---@class Runner
----@field console Console
----@field autocmd_id number|nil
+---@field console Console | nil
+---@field autocmd_id number | nil
 local Runner = {}
 Runner.__index = Runner
 
 function Runner.new()
 	return setmetatable({
-		console = Console:new(),
+		console = config.options.console and Console:new() or nil,
 	}, Runner)
 end
 
@@ -34,7 +34,10 @@ function Runner:on_std(output, buf)
 			table.insert(messages, output[i])
 		end
 	end
-	self.console:write(messages)
+
+	if self.console then
+		self.console:write(messages)
+	end
 end
 
 ---@param command table<string>
@@ -42,7 +45,9 @@ end
 function Runner:attach(command, cwd)
 	---@param run_data {buf: number}
 	local function run(run_data)
-		self.console:init()
+		if self.console then
+			self.console:init()
+		end
 		marks.clear(run_data.buf)
 
 		local function callback(_, output, _)
@@ -68,7 +73,9 @@ function Runner:detach()
 	if self.autocmd_id then
 		api.nvim_del_autocmd(self.autocmd_id)
 	end
-	self.console:close()
+	if self.console then
+		self.console:close()
+	end
 	marks.clear(api.nvim_win_get_buf(0))
 end
 
