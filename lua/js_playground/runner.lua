@@ -28,7 +28,10 @@ function Runner:on_std(output, buf)
 	for i = 1, #output, 1 do
 		local line, prop, message = utils.get_log_data(output[i])
 		if message then
-			marks.set_mark(buf, line, { config.options.marks.inline_prefix .. message, prop })
+			local marksOpts = config.options.marks
+			if marksOpts then
+				marks.set_mark(buf, line, { marksOpts.inline_prefix .. message, prop })
+			end
 			table.insert(messages, message)
 		else
 			table.insert(messages, output[i])
