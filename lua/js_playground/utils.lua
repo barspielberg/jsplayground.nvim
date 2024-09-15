@@ -1,7 +1,7 @@
 local api = vim.api
 local M = {}
 
-M.create_empty_buffer = function()
+function M.create_empty_buffer()
 	local buf = api.nvim_create_buf(false, true) -- create new empty buffer
 	api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
 	api.nvim_set_option_value("buftype", "nofile", { buf = buf })
@@ -12,7 +12,7 @@ end
 
 ---@param command string[]
 ---@param fileName string
-M.create_cmd = function(command, fileName)
+function M.create_cmd(command, fileName)
 	local cmd = {}
 	for i = 1, #command, 1 do
 		table.insert(cmd, command[i])
@@ -27,7 +27,9 @@ M.create_cmd = function(command, fileName)
 	return cmd
 end
 
-M.get_log_data = function(str)
+--- @param str string
+--- @return string, string, string
+function M.get_log_data(str)
 	return str:match("line:(%d+),prop:(%w+)| (.+)")
 end
 
