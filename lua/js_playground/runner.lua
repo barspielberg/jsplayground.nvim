@@ -1,21 +1,20 @@
 local utils = require("js_playground.utils")
 local marks = require("js_playground.marks")
+local config = require("js_playground.config")
+local Console = require("js_playground.console")
+
 local api = vim.api
 local groupId = api.nvim_create_augroup("jsPlayground", { clear = true })
 
 ---@class Runner
 ---@field console Console
 ---@field autocmd_id number|nil
----@field inline_prefix string
 local Runner = {}
 Runner.__index = Runner
 
----@param console Console
----@param opts { inline_prefix: string }
-function Runner.new(console, opts)
+function Runner.new()
 	return setmetatable({
-		console = console,
-		inline_prefix = opts.inline_prefix,
+		console = Console:new(),
 	}, Runner)
 end
 
@@ -29,7 +28,7 @@ function Runner:on_std(output, buf)
 	for i = 1, #output, 1 do
 		local line, prop, message = utils.get_log_data(output[i])
 		if message then
-			marks.set_mark(buf, line, { self.inline_prefix .. message, prop })
+			marks.set_mark(buf, line, { config.options.marks.inline_prefix .. message, prop })
 			table.insert(messages, message)
 		else
 			table.insert(messages, output[i])

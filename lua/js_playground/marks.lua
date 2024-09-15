@@ -1,7 +1,9 @@
-local api = vim.api
-local M = {}
+local config = require("js_playground.config")
 
-local ns = api.nvim_create_namespace("jsPlayground")
+local api = vim.api
+local ns = config.ns
+
+local M = {}
 
 ---@param win number
 M.init = function(win)

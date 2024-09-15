@@ -1,18 +1,15 @@
 local utils = require("js_playground.utils")
+local config = require("js_playground.config")
 local api = vim.api
 
 ---@class Console
----@field percentage number
 ---@field buf integer | nil
 ---@field win integer | nil
 local Console = {}
 Console.__index = Console
 
----@param percentage number
-function Console.new(percentage)
-	return setmetatable({
-		percentage = percentage,
-	}, Console)
+function Console.new()
+	return setmetatable({}, Console)
 end
 
 function Console:open()
@@ -30,7 +27,10 @@ function Console:open()
 	self.win = win
 
 	api.nvim_win_set_buf(win, self.buf)
-	api.nvim_win_set_height(win, math.ceil(api.nvim_get_option_value("lines", { scope = "local" }) * self.percentage))
+	api.nvim_win_set_height(
+		win,
+		math.ceil(api.nvim_get_option_value("lines", { scope = "local" }) * config.options.console.screenRatio)
+	)
 	api.nvim_set_option_value("number", false, { win = win })
 	api.nvim_set_option_value("relativenumber", false, { win = win })
 

@@ -1,14 +1,6 @@
 local utils = require("js_playground.utils")
 local Runner = require("js_playground.runner")
-local Console = require("js_playground.console")
-
-local opts = {
-	file_name = "playground.js",
-	percentage = 0.25,
-	-- cmd = { "node", "-r", "ts-node/register/transpile-only", "-r", "tsconfig-paths/register" },
-	cmd = { "node" },
-	inline_prefix = "» ",
-}
+local config = require("js_playground.config")
 
 ---@type Runner | nil
 local runner = nil
@@ -29,8 +21,8 @@ local function listen_cur_buf()
 
 	local cur_dir = vim.fn.expand("%:p:h")
 	local file_name = vim.fn.expand("%:t")
-	local cmd = utils.create_cmd(opts.cmd, file_name)
-	runner = Runner.new(Console.new(opts.percentage), opts)
+	local cmd = utils.create_cmd(config.options.cmd, file_name)
+	runner = Runner.new()
 	runner:attach(cmd, cur_dir)
 end
 
@@ -38,18 +30,13 @@ local function toggle()
 	if runner then
 		stop()
 	else
-		vim.api.nvim_command("edit " .. opts.file_name)
+		vim.api.nvim_command("edit " .. config.options.file_name)
 		listen_cur_buf()
 	end
-end
-
-local function setup(_opts)
-	--TODO: merge opts
-	-- set_mappings()
 end
 
 return {
 	stop = stop,
 	toggle = toggle,
-	setup = setup,
+	setup = config.setup,
 }
