@@ -14,7 +14,7 @@ local defaults = {
 		screenRatio = 0.25,
 	},
 	marks = {
-		inline_prefix = "» ",
+		inline_prefix = "// ",
 	},
 }
 
