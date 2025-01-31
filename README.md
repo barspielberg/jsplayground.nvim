@@ -24,7 +24,7 @@ You can customize the plugin behavior by passing your own options. Below are the
   file_name = "playground.js",  -- The default file name for the playground
   cmd = { "node" },             -- The command used to execute the code
   console = {
-    screenRatio = 0.25,         -- Ratio of the buffer for console output
+    screen_ratio = 0.25,         -- Ratio of the buffer for console output
   },
   marks = {
     inline_prefix = "// ",      -- Prefix for inline marks

@@ -29,7 +29,7 @@ function Console:open()
 	api.nvim_win_set_buf(win, self.buf)
 	api.nvim_win_set_height(
 		win,
-		math.ceil(api.nvim_get_option_value("lines", { scope = "local" }) * config.options.console.screenRatio)
+		math.ceil(api.nvim_get_option_value("lines", { scope = "local" }) * config.options.console.screen_ratio)
 	)
 	api.nvim_set_option_value("number", false, { win = win })
 	api.nvim_set_option_value("relativenumber", false, { win = win })

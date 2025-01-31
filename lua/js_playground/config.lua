@@ -11,7 +11,7 @@ local defaults = {
 	file_name = "playground.js",
 	cmd = { "node" },
 	console = {
-		screenRatio = 0.25,
+		screen_ratio = 0.25,
 	},
 	marks = {
 		inline_prefix = "// ",
